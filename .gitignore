@@ -1,0 +1,5 @@
+genomes/
+go_annotations/
+prokka_genomes/
+*.xlsx
+*.csv
