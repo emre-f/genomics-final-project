@@ -95,34 +95,44 @@ ordered_by_diff_unique = OrderedDict(sorted(diff_unique.items(), key=lambda i: i
 tot_keys_lst = list(ordered_by_diff_total.keys())
 unique_keys_lst = list(ordered_by_diff_unique.keys())
 
-df = pd.DataFrame(columns=['TOT GOOD', 'TOT BAD', 'UNIQ GOOD', 'UNIQ BAD'])
-for i in range(len(go_terms)):
+def write_raw_data_to_table():
+    df = pd.DataFrame(columns=['GO Term', 'Total Score', 'Unique Score'])
+    keys = list(go_terms.keys())
+    for i in range(len(keys)):
+        df.loc[i] = [keys[i], '{0:.2f}'.format(diff_total[keys[i]]), '{0:.4f}'.format(diff_unique[keys[i]])]
     
-    # Get ith total occured GO name and its count
-    total_top_name = tot_keys_lst[i]
-    total_top_count = ordered_by_diff_total[tot_keys_lst[i]]
+    df.to_csv(r'./GO_terms_raw.csv', sep=",", encoding='utf-8', header='true')
 
-    # Get bottom ith total occured GO name and its count
-    total_bottom_name = tot_keys_lst[-(i + 1)]
-    total_bottom_count = ordered_by_diff_total[tot_keys_lst[-(i + 1)]]
+def write_sorted_data_to_table():
+    df = pd.DataFrame(columns=['TOT GOOD', 'TOT BAD', 'UNIQ GOOD', 'UNIQ BAD'])
+    for i in range(len(go_terms)):
+        
+        # Get ith total occured GO name and its count
+        total_top_name = tot_keys_lst[i]
+        total_top_count = ordered_by_diff_total[tot_keys_lst[i]]
 
-    # Get ith total uniquely occured GO name and its count
-    unique_top_name = unique_keys_lst[i]
-    unique_top_count = ordered_by_diff_unique[unique_keys_lst[i]]
+        # Get bottom ith total occured GO name and its count
+        total_bottom_name = tot_keys_lst[-(i + 1)]
+        total_bottom_count = ordered_by_diff_total[tot_keys_lst[-(i + 1)]]
 
-    # Get bottom ith total uniquely occured GO name and its count
-    unique_bottom_name = unique_keys_lst[-(i + 1)]
-    unique_bottom_count = ordered_by_diff_unique[unique_keys_lst[-(i + 1)]]
+        # Get ith total uniquely occured GO name and its count
+        unique_top_name = unique_keys_lst[i]
+        unique_top_count = ordered_by_diff_unique[unique_keys_lst[i]]
 
-    # Save them into a final .csv file 
-    df.loc[i] = [
-        total_top_name + ' > {0:.2f}'.format(total_top_count),
-        total_bottom_name +  ' > {0:.2f}'.format(abs(total_bottom_count)),
-        unique_top_name +  ' > {0:.2f}'.format(unique_top_count),
-        unique_bottom_name +  ' > {0:.2f}'.format(abs(unique_bottom_count))
-    ]
+        # Get bottom ith total uniquely occured GO name and its count
+        unique_bottom_name = unique_keys_lst[-(i + 1)]
+        unique_bottom_count = ordered_by_diff_unique[unique_keys_lst[-(i + 1)]]
 
-df.to_csv(r'./GO_term_frequencies.csv', sep=",", encoding='utf-8', header='true')
+        # Save them into a final .csv file 
+        df.loc[i] = [
+            total_top_name + ' > {0:.2f}'.format(total_top_count),
+            total_bottom_name +  ' > {0:.2f}'.format(abs(total_bottom_count)),
+            unique_top_name +  ' > {0:.2f}'.format(unique_top_count),
+            unique_bottom_name +  ' > {0:.2f}'.format(abs(unique_bottom_count))
+        ]
+
+    df.to_csv(r'./GO_term_frequencies.csv', sep=",", encoding='utf-8', header='true')
+
 
 
 
