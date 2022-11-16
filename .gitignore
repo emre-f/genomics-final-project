@@ -1,5 +1,6 @@
 genomes/
 go_annotations/
 prokka_genomes/
+figures/
 *.xlsx
 *.csv
