@@ -26,7 +26,7 @@ def split_dict_to_multiple(input_dict, max_limit=200):
     return chunks
 
 def take_top_GO_terms(count):
-    target_file = "./GO_terms_raw.csv"
+    target_file = "./GO_terms_scored_raw.csv"
     data = pd.read_csv(target_file) 
     print("[0] GETTING GO TERM DATA FROM FILE")
     # GET THE ORDERED TERMS
@@ -143,37 +143,39 @@ good_bacteria_with_term_counts, bad_bacteria_with_term_counts = get_all_bacteria
 
 ''' 0. VISUALS BEGIN HERE '''
 plt.rcParams['font.size'] = '24'
-''' 1. ALL BACT TOGETHER. Outcome: total counts are useless'''
-ALL_BACT_COUNTS = good_bacteria_with_term_counts.copy()
-ALL_BACT_COUNTS.update(bad_bacteria_with_term_counts) # COMBINE LISTS
-makeHeatmapFromCounts(top_total_good_terms, ALL_BACT_COUNTS, 150, 'Greens', 'all_bact_tot_good')
-makeHeatmapFromCounts(top_total_bad_terms, ALL_BACT_COUNTS, 30, 'Reds', 'all_bact_tot_bad')
-makeHeatmapFromCounts(top_unique_good_terms, ALL_BACT_COUNTS, 4, 'Greens', 'all_bact_uniq_good')
-makeHeatmapFromCounts(top_unique_bad_terms, ALL_BACT_COUNTS, 4, 'Reds', 'all_bact_uniq_bad')
 
-''' 2. UNIQUE COUNTS '''
-plt.rcParams['font.size'] = '48'
-''' 2.1. GOOD BACT '''
-makeHeatmapFromCounts(top_unique_good_terms, good_bacteria_with_term_counts, 4, 'Greens', 'good_bact_uniq_good')
-makeHeatmapFromCounts(top_unique_bad_terms, good_bacteria_with_term_counts, 4, 'Reds', 'good_bact_uniq_bad')
+# ''' 1. ALL BACT TOGETHER. Outcome: total counts are useless'''
+# ALL_BACT_COUNTS = good_bacteria_with_term_counts.copy()
+# ALL_BACT_COUNTS.update(bad_bacteria_with_term_counts) # COMBINE LISTS
+# makeHeatmapFromCounts(top_total_good_terms, ALL_BACT_COUNTS, 150, 'Greens', 'all_bact_tot_good')
+# makeHeatmapFromCounts(top_total_bad_terms, ALL_BACT_COUNTS, 30, 'Reds', 'all_bact_tot_bad')
+# makeHeatmapFromCounts(top_unique_good_terms, ALL_BACT_COUNTS, 4, 'Greens', 'all_bact_uniq_good')
+# makeHeatmapFromCounts(top_unique_bad_terms, ALL_BACT_COUNTS, 4, 'Reds', 'all_bact_uniq_bad')
 
-''' 2.2. BAD BACT '''
-split_bad_dicts = split_dict_to_multiple(bad_bacteria_with_term_counts, 38)
-for i in range(len(split_bad_dicts)):
-    makeHeatmapFromCounts(top_unique_good_terms, split_bad_dicts[i], 4, 'Greens', 'bad_bact_uniq_good_' + repr(i))
+# ''' 2. UNIQUE COUNTS '''
+# plt.rcParams['font.size'] = '48'
+# ''' 2.1. GOOD BACT '''
+# makeHeatmapFromCounts(top_unique_good_terms, good_bacteria_with_term_counts, 4, 'Greens', 'good_bact_uniq_good')
+# makeHeatmapFromCounts(top_unique_bad_terms, good_bacteria_with_term_counts, 4, 'Reds', 'good_bact_uniq_bad')
 
-for i in range(len(split_bad_dicts)):
-    makeHeatmapFromCounts(top_unique_bad_terms, split_bad_dicts[i], 4, 'Reds', 'bad_bact_uniq_bad_' + repr(i))
+# ''' 2.2. BAD BACT '''
+# split_bad_dicts = split_dict_to_multiple(bad_bacteria_with_term_counts, 38)
+# for i in range(len(split_bad_dicts)):
+#     makeHeatmapFromCounts(top_unique_good_terms, split_bad_dicts[i], 4, 'Greens', 'bad_bact_uniq_good_' + repr(i))
 
-''' 3. ALL GO TERMS '''
+# for i in range(len(split_bad_dicts)):
+#     makeHeatmapFromCounts(top_unique_bad_terms, split_bad_dicts[i], 4, 'Reds', 'bad_bact_uniq_bad_' + repr(i))
 
-''' 3.1 GOOD BACT '''
-makeHeatmapFromCounts(top_unique_good_terms + top_unique_bad_terms, good_bacteria_with_term_counts, 4, 'Greens', 'good_bact_uniq_all')
+# ''' 3. ALL GO TERMS '''
 
-''' 3.2. BAD BACT '''
-split_bad_dicts = split_dict_to_multiple(bad_bacteria_with_term_counts, 38)
-for i in range(len(split_bad_dicts)):
-    makeHeatmapFromCounts(top_unique_good_terms + top_unique_bad_terms, split_bad_dicts[i], 4, 'Reds', 'bad_bact_uniq_all_' + repr(i))
+# ''' 3.1 GOOD BACT '''
+# makeHeatmapFromCounts(top_unique_good_terms + top_unique_bad_terms, good_bacteria_with_term_counts, 4, 'Greens', 'good_bact_uniq_all')
+
+# ''' 3.2. BAD BACT '''
+# makeHeatmapFromCounts(top_unique_good_terms + top_unique_bad_terms, bad_bacteria_with_term_counts, 4, 'Reds', 'bad_bact_uniq_all')
+# split_bad_dicts = split_dict_to_multiple(bad_bacteria_with_term_counts, 38)
+# for i in range(len(split_bad_dicts)):
+#     makeHeatmapFromCounts(top_unique_good_terms + top_unique_bad_terms, split_bad_dicts[i], 4, 'Reds', 'bad_bact_uniq_all_' + repr(i))
 
 
 ''' OLD STUFF [IGNORE] '''
